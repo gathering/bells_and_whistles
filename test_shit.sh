@@ -34,7 +34,7 @@ END {
 	gsub("\r$","",location);
 	if (location != arg2) {
 		if (verbose)
-			print "\tMismatch between expected Location-header and real. Expected \"" arg2 "\" got \"" location "\"."
+			print "\tMismatch between expected Location-header and real.\n\tExpected: \"" arg2 "\"\n\tGot:      \"" location "\"."
 		ret++;
 	}
 	if (varnish != 1 && match(url, "www.gathering.org")) {
