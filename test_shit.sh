@@ -7,14 +7,22 @@ if [ "x$1" = "x-v" ]; then
 	VERBOSE=true
 fi
 print_green() {
-	echo -en "\033[32m$*\033[0m";
+	if [ "x$COLOR" != "xNO"  ]; then
+		echo -en "\033[32m$*\033[0m";
+	else
+		echo -en "$*"
+	fi
 }
 print_red() {
-	echo -en "\033[31m$*\033[0m";
+	if [ "x$COLOR" != "xNO"  ]; then
+		echo -en "\033[31m$*\033[0m";
+	else
+		echo -en "$*"
+	fi
 }
 
 eat_it() {
-	http -ph "$1" | awk -v arg1="$2" -v arg2="$3" -v url="$1" -v verbose=$VERBOSE '
+	http -ph GET "$1" | awk -v arg1="$2" -v arg2="$3" -v url="$1" -v verbose=$VERBOSE '
 /^HTTP\/1.1/ {
 	status=$2
 }
