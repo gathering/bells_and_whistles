@@ -99,7 +99,7 @@ check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
 
 # Archive
 check_url http://archive.gathering.org/ 200
-for year in 96 97 98 99 0{1..9} 10 15 16; do
+for year in 96 97 98 99 0{0..9} 10 15 16; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
 	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
