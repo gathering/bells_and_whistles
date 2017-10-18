@@ -84,7 +84,7 @@ check_url() {
 
 # Wannabe
 check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg17/
+check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
 
 # g.o front
 check_url http://www.gathering.org/ 302 https://www.gathering.org/tg17/
