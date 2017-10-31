@@ -1,7 +1,7 @@
 #!/bin/bash
 total_ret=0
 total=0
-
+_start=$(date +%s)
 VERBOSE="0"
 if [ "x$1" = "x-v" ]; then
 	VERBOSE=true
@@ -99,12 +99,31 @@ check_ssl() {
 	total=$(( ${total} + 1 ))
 	return $?
 }
+
+check_mixed() {
+	_out=$(! wget -p $1 --delete-after 2>&1| grep http://)
+	ret=$?
+	if [  "x$ret" = "x0" ]; then
+		print_green "OK     "
+		echo "| no mixed content: $1"
+	else
+		print_red "FAILED "
+		echo "| mixed content at: $1"
+	fi
+	total_ret=$(( ${total_ret} + ${ret} ))
+	total=$(( ${total} + 1 ))
+	return $?
+}	
 check_ssl www.gathering.org
 check_ssl gathering.org
 check_ssl wannabe.gathering.org
 check_ssl archive.gathering.org
 check_ssl countdown.gathering.org
 check_ssl teaser.gathering.org
+
+check_mixed https://www.gathering.org/
+check_mixed https://archive.gathering.org/
+check_mixed https://wannabe.gathering.org/
 
 # Wannabe
 check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
@@ -132,6 +151,7 @@ for year in 96 97 98 99 0{0..9} 10 15 16; do
 	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
 	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	check_url https://archive.gathering.org/tg${year}/ 200
+	check_mixed https://archive.gathering.org/tg${year}/
 done
 for year in {11..12}; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
@@ -142,6 +162,7 @@ for year in {11..12}; do
 	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
 	check_url https://archive.gathering.org/tg${year}/en/ 200
+	check_mixed https://archive.gathering.org/tg${year}/en/
 done
 for year in {13..14}; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
@@ -152,8 +173,10 @@ for year in {13..14}; do
 	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
 	check_url https://archive.gathering.org/tg${year}/no/ 200
+	check_mixed https://archive.gathering.org/tg${year}/no/
 done
 echo
+_duration=$(( $(date +%s) - ${_start} ))
 echo "Summary: "
 if [ "x$total_ret" != "x0" ]; then
 	print_red "HALP! It failed!\n"
@@ -161,4 +184,5 @@ else
 	print_green "All ok!\n"
 fi
 echo "$total_ret of $total tests failed."
+echo "Total run-time: $_duration seconds."
 exit $total_ret
