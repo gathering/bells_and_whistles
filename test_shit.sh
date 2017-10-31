@@ -82,6 +82,30 @@ check_url() {
 	return $?
 }
 
+check_ssl() {
+	_in=$(openssl s_client -connect $1 -port 443 -attime $(date +%s --date='now + 14 days') -verify_hostname $1 <<<"" 2>&1 | grep 'Verify return' | sed 's/^\s*//g')
+	_ok="Verify return code: 0 (ok)"
+	ret=0
+	if [ "x$_in" != "x$_ok" ]; then
+		print_red "FAILED "
+		echo -e "| SSL verification failed for $1: $_in"
+		ret=1
+	else
+		print_green "OK     "
+		echo "| SSL on $1"
+		ret=0
+	fi
+	total_ret=$(( ${total_ret} + ${ret} ))
+	total=$(( ${total} + 1 ))
+	return $?
+}
+check_ssl www.gathering.org
+check_ssl gathering.org
+check_ssl wannabe.gathering.org
+check_ssl archive.gathering.org
+check_ssl countdown.gathering.org
+check_ssl teaser.gathering.org
+
 # Wannabe
 check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
 check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
@@ -98,32 +122,36 @@ check_url https://www.gathering.org/tg17/admin/ 302 https://www.gathering.org/tg
 check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
 
 # Archive
-check_url http://archive.gathering.org/ 200
+check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
+check_url https://archive.gathering.org/ 200
 for year in 96 97 98 99 0{0..9} 10 15 16; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
 	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}/
-	check_url http://archive.gathering.org/tg${year}/ 200
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 200
 done
 for year in {11..12}; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
 	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}/
-	check_url http://archive.gathering.org/tg${year}/ 302 http://archive.gathering.org/tg${year}/en/
-	check_url http://archive.gathering.org/tg${year}/en/ 200
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
+	check_url https://archive.gathering.org/tg${year}/en/ 200
 done
 for year in {13..14}; do
 	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
 	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}/
-	check_url http://archive.gathering.org/tg${year}/ 302 http://archive.gathering.org/tg${year}/no/
-	check_url http://archive.gathering.org/tg${year}/no/ 200
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
+	check_url https://archive.gathering.org/tg${year}/no/ 200
 done
 echo
 echo "Summary: "
