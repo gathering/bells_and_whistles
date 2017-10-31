@@ -183,6 +183,5 @@ if [ "x$total_ret" != "x0" ]; then
 else
 	print_green "All ok!\n"
 fi
-echo "$total_ret of $total tests failed."
-echo "Total run-time: $_duration seconds."
+echo "$total_ret of $total tests failed. Run-time: $_duration seconds."
 exit $total_ret
