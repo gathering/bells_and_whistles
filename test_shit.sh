@@ -6,30 +6,6 @@ VERBOSE="0"
 if [ "x$1" = "x-v" ]; then
 	VERBOSE=true
 fi
-check=0
-
-rm -r output/
-gaffel()
-{
-	mkdir -p output/$1
-	cd output/$1
-	shift
-	$* > stdout 2>stderr
-	echo $? > ret
-}
-
-forget()
-{
-	stdout[$1]="$(cat output/$1/stdout)"
-	stderr[$1]="$(cat output/$1/stderr)"
-	ret[$1]="$(cat output/$1/ret)"
-}
-
-fire()
-{
-	gaffel $check $* &
-	check=$(( $check + 1 ))
-}
 print_green() {
 	if [ "x$COLOR" != "xNO"  ]; then
 		echo -en "\033[32m$*\033[0m";
@@ -138,82 +114,68 @@ check_mixed() {
 	total=$(( ${total} + 1 ))
 	return $?
 }	
-fire check_ssl www.gathering.org
-fire check_ssl gathering.org
-fire check_ssl wannabe.gathering.org
-fire check_ssl archive.gathering.org
-fire check_ssl countdown.gathering.org
-fire check_ssl teaser.gathering.org
+check_ssl www.gathering.org
+check_ssl gathering.org
+check_ssl wannabe.gathering.org
+check_ssl archive.gathering.org
+check_ssl countdown.gathering.org
+check_ssl teaser.gathering.org
 
-fire check_mixed https://www.gathering.org/
-fire check_mixed https://archive.gathering.org/
-fire check_mixed https://wannabe.gathering.org/
+check_mixed https://www.gathering.org/
+check_mixed https://archive.gathering.org/
+check_mixed https://wannabe.gathering.org/
 
 # Wannabe
-fire check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-fire check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
+check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
+check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
 
 # g.o front
-fire check_url http://www.gathering.org/ 302 https://www.gathering.org/tg17/
+check_url http://www.gathering.org/ 302 https://www.gathering.org/tg17/
 
 # TG17
-fire check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
-fire check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
-fire check_url https://www.gathering.org/tg17 302 https://www.gathering.org/tg17/
-fire check_url https://www.gathering.org/tg17/ 200
-fire check_url https://www.gathering.org/tg17/admin/ 302 https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/
-fire check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
+check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
+check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
+check_url https://www.gathering.org/tg17 302 https://www.gathering.org/tg17/
+check_url https://www.gathering.org/tg17/ 200
+check_url https://www.gathering.org/tg17/admin/ 302 https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/
+check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
 
 # Archive
-fire check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
-fire check_url https://archive.gathering.org/ 200
+check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
+check_url https://archive.gathering.org/ 200
 for year in 96 97 98 99 0{0..9} 10 15 16; do
-	fire check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	fire check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	fire check_url https://archive.gathering.org/tg${year}/ 200
-	fire check_mixed https://archive.gathering.org/tg${year}/
+	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 200
+	check_mixed https://archive.gathering.org/tg${year}/
 done
 for year in {11..12}; do
-	fire check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	fire check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	fire check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
-	fire check_url https://archive.gathering.org/tg${year}/en/ 200
-	fire check_mixed https://archive.gathering.org/tg${year}/en/
+	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
+	check_url https://archive.gathering.org/tg${year}/en/ 200
+	check_mixed https://archive.gathering.org/tg${year}/en/
 done
 for year in {13..14}; do
-	fire check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	fire check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	fire check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	fire check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	fire check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
-	fire check_url https://archive.gathering.org/tg${year}/no/ 200
-	fire check_mixed https://archive.gathering.org/tg${year}/no/
+	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
+	check_url https://archive.gathering.org/tg${year}/no/ 200
+	check_mixed https://archive.gathering.org/tg${year}/no/
 done
 echo
-wait
-
-a=0
-while [ $a -lt $check ]; do
-	forget $a
-	a=$(( $a + 1 ))
-done
-a=0
-while [ $a -lt $check ]; do
-	echo -e "${stdout[$a]}"
-	total_ret=$(( ${total_ret} + ${ret[$a]} ))
-	total=$(( ${total} + 1 ))
-	a=$(( $a + 1 ))
-done
 _duration=$(( $(date +%s) - ${_start} ))
 echo "Summary: "
 if [ "x$total_ret" != "x0" ]; then
