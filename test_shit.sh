@@ -1,180 +1,103 @@
 #!/bin/bash
 total_ret=0
 total=0
+nqueue=0
 _start=$(date +%s)
 VERBOSE="0"
 if [ "x$1" = "x-v" ]; then
 	VERBOSE=true
 fi
-print_green() {
-	if [ "x$COLOR" != "xNO"  ]; then
-		echo -en "\033[32m$*\033[0m";
-	else
-		echo -en "$*"
-	fi
-}
-print_red() {
-	if [ "x$COLOR" != "xNO"  ]; then
-		echo -en "\033[31m$*\033[0m";
-	else
-		echo -en "$*"
-	fi
-}
 
-eat_it() {
-	http -ph GET "$1" | awk -v arg1="$2" -v arg2="$3" -v url="$1" -v verbose=$VERBOSE '
-/^HTTP\/1.1/ {
-	status=$2
-}
-/^Location: / {
-	location=$2
-}
-/^X-Varnish: / {
-	varnish=1
-}
+. util.sh
 
-END {
-	if (status != arg1) {
-		if (verbose)
-			print "\tWrong status. Got " status " expected " arg1;
-		ret++;
-	}
-	gsub("\r$","",location);
-	if (location != arg2) {
-		if (verbose)
-			print "\tMismatch between expected Location-header and real.\n\tExpected: \"" arg2 "\"\n\tGot:      \"" location "\"."
-		ret++;
-	}
-	if (varnish != 1 && match(url, "www.gathering.org")) {
-		if (verbose)
-			print "\tNO VARNISH"
-		ret++;
-	}
-	if (!verbose)
-		print status":"arg1
-	if (ret == 0)
-		exit 0;
-	else
-		exit 1;
+if [ -d output ]; then rm -r output; fi
+mkdir -p output
+queue() {
+	mkdir -p output/${nqueue}
+	cat > output/${nqueue}/script <<_EOF_
+#!/bin/bash
+_start=\$(date +%s)
+cd \$(dirname \$0)
+. ../../util.sh
+$* | sponge
+echo \$? > ret
+echo \$(( \$(date +%s) - \${_start} )) > runtime
+_EOF_
+	chmod +x output/${nqueue}/script
+	nqueue=$(( ${nqueue} + 1 ))
 }
-'
-	return $?
-}
+queue check_ssl www.gathering.org
+queue check_ssl gathering.org
+queue check_ssl wannabe.gathering.org
+queue check_ssl archive.gathering.org
+queue check_ssl countdown.gathering.org
+queue check_ssl teaser.gathering.org
 
-check_url() {
-	OUT=$(eat_it "$@")
-	ret=$?
-	if [  "x$ret" = "x0" ]; then
-		print_green "OK     "
-		echo "| $1"
-	else
-		print_red "FAILED "
-		if [ "x$VERBOSE" != "xtrue" ]; then
-			echo -n "| $OUT "
-		fi
-		echo "| $1"
-		if [ "x$VERBOSE" = "xtrue" ]; then
-			echo -e "$OUT"
-		fi
-	fi
-	total_ret=$(( ${total_ret} + ${ret} ))
-	total=$(( ${total} + 1 ))
-	return $?
-}
-
-check_ssl() {
-	_in=$(openssl s_client -connect $1 -port 443 -attime $(date +%s --date='now + 14 days') -verify_hostname $1 <<<"" 2>&1 | grep 'Verify return' | sed 's/^\s*//g')
-	_ok="Verify return code: 0 (ok)"
-	ret=0
-	if [ "x$_in" != "x$_ok" ]; then
-		print_red "FAILED "
-		echo -e "| SSL verification failed for $1: $_in"
-		ret=1
-	else
-		print_green "OK     "
-		echo "| SSL on $1"
-		ret=0
-	fi
-	total_ret=$(( ${total_ret} + ${ret} ))
-	total=$(( ${total} + 1 ))
-	return $?
-}
-
-check_mixed() {
-	_out=$(! wget -p $1 --delete-after 2>&1| grep http://)
-	ret=$?
-	if [  "x$ret" = "x0" ]; then
-		print_green "OK     "
-		echo "| no mixed content: $1"
-	else
-		print_red "FAILED "
-		echo "| mixed content at: $1"
-	fi
-	total_ret=$(( ${total_ret} + ${ret} ))
-	total=$(( ${total} + 1 ))
-	return $?
-}	
-check_ssl www.gathering.org
-check_ssl gathering.org
-check_ssl wannabe.gathering.org
-check_ssl archive.gathering.org
-check_ssl countdown.gathering.org
-check_ssl teaser.gathering.org
-
-check_mixed https://www.gathering.org/
-check_mixed https://archive.gathering.org/
-check_mixed https://wannabe.gathering.org/
+queue check_mixed https://www.gathering.org/
+queue check_mixed https://archive.gathering.org/
+queue check_mixed https://wannabe.gathering.org/
 
 # Wannabe
-check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
+queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
+queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
 
 # g.o front
-check_url http://www.gathering.org/ 302 https://www.gathering.org/tg17/
+queue check_url http://www.gathering.org/ 302 https://www.gathering.org/tg17/
 
 # TG17
-check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
-check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
-check_url https://www.gathering.org/tg17 302 https://www.gathering.org/tg17/
-check_url https://www.gathering.org/tg17/ 200
-check_url https://www.gathering.org/tg17/admin/ 302 https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/
-check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
+queue check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
+queue check_url http://www.gathering.org/tg17/ 302 https://www.gathering.org/tg17/
+queue check_url https://www.gathering.org/tg17 302 https://www.gathering.org/tg17/
+queue check_url https://www.gathering.org/tg17/ 200
+queue check_url https://www.gathering.org/tg17/admin/ 302 https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/
+queue check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 200
 
 # Archive
-check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
-check_url https://archive.gathering.org/ 200
+queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
+queue check_url https://archive.gathering.org/ 200
 for year in 96 97 98 99 0{0..9} 10 15 16; do
-	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	check_url https://archive.gathering.org/tg${year}/ 200
-	check_mixed https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://archive.gathering.org/tg${year}/ 200
+	queue check_mixed https://archive.gathering.org/tg${year}/
 done
 for year in {11..12}; do
-	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
-	check_url https://archive.gathering.org/tg${year}/en/ 200
-	check_mixed https://archive.gathering.org/tg${year}/en/
+	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
+	queue check_url https://archive.gathering.org/tg${year}/en/ 200
 done
+queue check_mixed https://archive.gathering.org/tg11/en/
 for year in {13..14}; do
-	check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-	check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
-	check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
-	check_url https://archive.gathering.org/tg${year}/no/ 200
-	check_mixed https://archive.gathering.org/tg${year}/no/
+	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
+	queue check_url https://archive.gathering.org/tg${year}/no/ 200
+	queue check_mixed https://archive.gathering.org/tg${year}/no/
 done
+
+make -j10 $(echo output/*/script | sed s/script/ret/g)
+item=0
+while [ $item -lt $nqueue ]; do
+	ret=$(cat output/${item}/ret)
+	total_ret=$(( ${total_ret} + ${ret} ))
+	total=$(( ${total} + 1 ))
+	item=$(( $item + 1 ))
+done
+#if [ -d output ]; then rm -r output; fi
+
 echo
 _duration=$(( $(date +%s) - ${_start} ))
 echo "Summary: "

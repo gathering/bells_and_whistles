@@ -1,0 +1,2 @@
+output/%/ret: output/%/script
+	@$<
