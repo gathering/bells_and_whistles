@@ -2,11 +2,9 @@
 total_ret=0
 total=0
 nqueue=0
+pjobs=10
 _start=$(date +%s)
 VERBOSE="0"
-if [ "x$1" = "x-v" ]; then
-	VERBOSE=true
-fi
 
 cd $(dirname $0)
 . util.sh
@@ -27,6 +25,36 @@ _EOF_
 	chmod +x output/${nqueue}/script
 	nqueue=$(( ${nqueue} + 1 ))
 }
+
+usage() {
+	cat <<_EOF_
+$0 [-j jobs] [-v] [-h]
+
+-j jobs		Number of jobs to run in parallell. Default: $pjobs
+-v		Verbose mode
+-h		Show help and exit
+_EOF_
+}
+
+while getopts "j:vh" opts; do
+	case $opts in
+		v)
+			VERBOSE=true
+			;;
+		j)
+			pjobs=$OPTARG
+			;;
+		h)
+			usage
+			exit 0;
+			;;
+		*)
+			usage 1>&2
+			exit 1;
+			;;
+	esac
+done
+
 queue check_ssl www.gathering.org
 queue check_ssl gathering.org
 queue check_ssl wannabe.gathering.org
@@ -75,8 +103,8 @@ for year in {11..12}; do
 	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	queue check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
 	queue check_url https://archive.gathering.org/tg${year}/en/ 200
+	queue check_mixed https://archive.gathering.org/tg${year}/en/
 done
-queue check_mixed https://archive.gathering.org/tg11/en/
 for year in {13..14}; do
 	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
 	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
@@ -89,7 +117,7 @@ for year in {13..14}; do
 	queue check_mixed https://archive.gathering.org/tg${year}/no/
 done
 
-make -j10 $(echo output/*/script | sed s/script/ret/g)
+make -j${pjobs} $(echo output/*/script | sed s/script/ret/g)
 item=0
 while [ $item -lt $nqueue ]; do
 	ret=$(cat output/${item}/ret)
