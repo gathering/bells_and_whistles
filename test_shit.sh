@@ -8,6 +8,7 @@ if [ "x$1" = "x-v" ]; then
 	VERBOSE=true
 fi
 
+cd $(dirname $0)
 . util.sh
 
 if [ -d output ]; then rm -r output; fi
