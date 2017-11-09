@@ -18,8 +18,10 @@ queue() {
 _start=\$(date +%s)
 cd \$(dirname \$0)
 . ../../util.sh
-$* | sponge
+{
+	$*
 echo \$? > ret
+} | sponge
 echo \$(( \$(date +%s) - \${_start} )) > runtime
 _EOF_
 	chmod +x output/${nqueue}/script
