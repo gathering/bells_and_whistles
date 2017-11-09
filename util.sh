@@ -38,7 +38,7 @@ END {
 			print "\tMismatch between expected Location-header and real.\n\tExpected: \"" arg2 "\"\n\tGot:      \"" location "\"."
 		ret++;
 	}
-	if (varnish != 1 && match(url, "www.gathering.org")) {
+	if (varnish != 1 && match(url, "www.gathering.org") && santaclause != real) {
 		if (verbose)
 			print "\tNO VARNISH"
 		ret++;

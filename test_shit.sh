@@ -16,6 +16,7 @@ queue() {
 	cat > output/${nqueue}/script <<_EOF_
 #!/bin/bash
 _start=\$(date +%s)
+VERBOSE=${VERBOSE}
 cd \$(dirname \$0)
 . ../../util.sh
 {
@@ -87,20 +88,20 @@ queue check_url https://www.gathering.org/tg17/admin/login/?next=/tg17/admin/ 20
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
 queue check_url https://archive.gathering.org/ 200
 for year in 96 97 98 99 0{0..9} 10 15 16; do
-	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url https://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
 	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	queue check_url https://archive.gathering.org/tg${year}/ 200
 	queue check_mixed https://archive.gathering.org/tg${year}/
 done
 for year in {11..12}; do
-	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url https://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
 	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	queue check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/en/
@@ -108,10 +109,10 @@ for year in {11..12}; do
 	queue check_mixed https://archive.gathering.org/tg${year}/en/
 done
 for year in {13..14}; do
-	queue check_url https://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
-	queue check_url http://www.gathering.org/tg${year}/ 301 http://archive.gathering.org/tg${year}/
-	queue check_url http://www.gathering.org/tg${year} 301 http://archive.gathering.org/tg${year}
+	queue check_url https://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
 	queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 	queue check_url https://archive.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/no/
