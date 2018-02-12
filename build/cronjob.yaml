@@ -3,7 +3,8 @@ kind: CronJob
 metadata:
   name: bells-and-whistles
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "10 16 * * *"
+  concurrencyPolicy: "Replace"
   jobTemplate:
     spec:
       template:
