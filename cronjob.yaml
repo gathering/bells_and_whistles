@@ -7,8 +7,18 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: bells-and-whistles
         spec:
           containers:
           - name: bell
             image: gcr.io/the-gathering-195011/github-gathering-bells_and_whistles:latest
+            volumeMounts:
+            - mountPath: /ansible
+              name: ansible
+          volumes:
+          - name: ansible
+            secret:
+              secretName: bells-and-whistles
           restartPolicy: OnFailure
