@@ -1,0 +1,25 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: bells-and-whistles
+spec:
+  schedule: "10 16 * * *"
+  concurrencyPolicy: "Replace"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: bells-and-whistles
+        spec:
+          containers:
+          - name: bell
+            image: gcr.io/the-gathering-195011/github-gathering-bells_and_whistles:latest
+            volumeMounts:
+            - mountPath: /ansible
+              name: ansible
+          volumes:
+          - name: ansible
+            secret:
+              secretName: bells-and-whistles
+          restartPolicy: OnFailure
