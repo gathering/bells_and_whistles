@@ -78,7 +78,7 @@ queue check_url https://wannabe.gathering.org/tg18/ 302 https://wannabe.gatherin
 queue check_url https://wannabe.gathering.org/tg18/Login 200
 
 # g.o front
-queue check_url http://www.gathering.org/ 302 https://www.gathering.org/tg18
+queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
 queue check_url https://www.gathering.org/ 302 https://www.gathering.org/tg18
 queue check_url http://gathering.org 302 https://www.gathering.org/tg18
 queue check_url http://gathering.org/ 302 https://www.gathering.org/tg18
