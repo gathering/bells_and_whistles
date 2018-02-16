@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bells-job
+spec:
+  backoffLimit: 5
+  activeDeadlineSeconds: 1200
+  template:
+    spec:
+      containers:
+      - name: bell
+        image: gcr.io/the-gathering-195011/github-gathering-bells_and_whistles:latest
+        volumeMounts:
+        - mountPath: /ansible
+          name: ansible
+        resources:
+          requests:
+            cpu: 4
+            memory: 400Mi
+          limits:
+            cpu: 6
+            memory: 1Gi
+      volumes:
+      - name: ansible
+        secret:
+          secretName: bells-and-whistles
+      restartPolicy: OnFailure
