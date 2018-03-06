@@ -107,3 +107,17 @@ check_mixed() {
 	total=$(( ${total} + 1 ))
 	return $ret
 }
+
+find_string() {
+	total=$(( ${total} + 1 ))
+	if curl -s "$1" | grep $2 > /dev/null
+	then
+		print_green "OK     "
+		echo "| found string $2 in $1"
+	else
+		print_red "FAILED "
+		echo "| failed to find $2 in $1"
+		total_ret=$(( ${total_ret} + 1 ))
+		return 1;
+	fi
+}

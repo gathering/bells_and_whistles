@@ -90,6 +90,9 @@ queue check_url https://www.gathering.org/tg18 200
 queue check_url https://www.gathering.org/api/wp-login.php 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
 queue check_mixed https://www.gathering.org/tg18
+queue find_string https://www.gathering.org/tg18 "The Gathering 2018"
+queue find_string https://www.gathering.org/tg18/page/informasjon "Informasjon"
+queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg18"
 
 # Archive
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
