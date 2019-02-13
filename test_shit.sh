@@ -64,10 +64,16 @@ queue check_ssl wannabe.gathering.org
 queue check_ssl archive.gathering.org
 queue check_ssl countdown.gathering.org
 queue check_ssl teaser.gathering.org
+queue check_ssl rt.gathering.org
 
 queue check_mixed https://www.gathering.org/
 queue check_mixed https://archive.gathering.org/
 queue check_mixed https://wannabe.gathering.org/
+queue check_mixed https://rt.gathering.org/
+
+# RT
+queue check_url http://rt.gathering.org 302 https://rt.gathering.org/
+queue check_url https://rt.gathering.org/rt/ 200
 
 # Wannabe
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
