@@ -65,11 +65,17 @@ queue check_ssl archive.gathering.org
 queue check_ssl countdown.gathering.org
 queue check_ssl teaser.gathering.org
 queue check_ssl rt.gathering.org
+queue check_ssl lists.gathering.org
 
 queue check_mixed https://www.gathering.org/
 queue check_mixed https://archive.gathering.org/
 queue check_mixed https://wannabe.gathering.org/
 queue check_mixed https://rt.gathering.org/
+queue check_mixed https://lists.gathering.org/
+
+# Lists / Mailman Web
+queue check_url http://lists.gathering.org 302 https://lists.gathering.org/
+queue check_url https://lists.gathering.org/ 200
 
 # RT
 queue check_url http://rt.gathering.org 302 https://rt.gathering.org/
