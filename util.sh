@@ -19,7 +19,7 @@ eat_it() {
 /^HTTP\/1.1/ {
 	status=$2
 }
-/^Location: / {
+/^[Ll]ocation: / {
 	location=$2
 }
 /^X-Varnish: / {
@@ -76,7 +76,7 @@ check_url() {
 }
 
 check_ssl() {
-	_in=$(openssl s_client -connect $1 -port 443 -attime $(date +%s --date='now + 14 days') -verify_hostname $1 <<<"" 2>&1 | grep 'Verify return' | sed 's/^\s*//g')
+	_in=$(openssl s_client -host $1 -port 443 -servername $1 -attime $(date +%s --date='now + 14 days') -verify_hostname $1 <<<"" 2>&1 | grep 'Verify return' | sed 's/^\s*//g')
 	_ok="Verify return code: 0 (ok)"
 	ret=0
 	if [ "x$_in" != "x$_ok" ]; then

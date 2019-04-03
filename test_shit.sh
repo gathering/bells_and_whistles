@@ -83,33 +83,33 @@ queue check_url https://rt.gathering.org/rt/ 200
 
 # Wannabe
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg18/
-queue check_url https://wannabe.gathering.org/tg18/Crew/Description 200
-queue check_url https://wannabe.gathering.org/tg18/Crew 302 https://wannabe.gathering.org/tg18/Login
-queue check_url https://wannabe.gathering.org/tg18/ 302 https://wannabe.gathering.org/tg18/Login
-queue check_url https://wannabe.gathering.org/tg18/Login 200
+queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg19/
+queue check_url https://wannabe.gathering.org/tg19/Crew/Description 200
+queue check_url https://wannabe.gathering.org/tg19/Crew 302 https://wannabe.gathering.org/tg19/Login
+queue check_url https://wannabe.gathering.org/tg19/ 302 https://wannabe.gathering.org/tg19/Login
+queue check_url https://wannabe.gathering.org/tg19/Login 200
 
 # g.o front
-queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
-queue check_url https://www.gathering.org/ 302 https://www.gathering.org/tg18
-queue check_url http://gathering.org 302 https://www.gathering.org/tg18
-queue check_url http://gathering.org/ 302 https://www.gathering.org/tg18
-queue check_url http://gathering.org/tg18 302 https://www.gathering.org/tg18
-queue check_url https://gathering.org 302 https://www.gathering.org/tg18
-queue check_url https://gathering.org/ 302 https://www.gathering.org/tg18
-queue check_url https://gathering.org/tg18 302 https://www.gathering.org/tg18
-queue check_url https://www.gathering.org/tg18 200
+queue check_url http://www.gathering.org/ 301 https://www.gathering.org/
+queue check_url https://www.gathering.org/ 301 https://www.gathering.org/tg19
+queue check_url http://gathering.org 301 https://www.gathering.org/
+queue check_url http://gathering.org/ 301 https://www.gathering.org/
+queue check_url http://gathering.org/tg19 301 https://www.gathering.org/tg19
+queue check_url https://gathering.org 301 https://www.gathering.org/tg19
+queue check_url https://gathering.org/ 301 https://www.gathering.org/tg19
+queue check_url https://gathering.org/tg19 301 https://www.gathering.org
+queue check_url https://www.gathering.org/tg19 200
 queue check_url https://www.gathering.org/api/wp-login.php 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
-queue check_mixed https://www.gathering.org/tg18
-queue find_string https://www.gathering.org/tg18 "The Gathering 2018"
-queue find_string https://www.gathering.org/tg18/page/informasjon "Informasjon"
-queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg18"
+queue check_mixed https://www.gathering.org/tg19
+queue find_string https://www.gathering.org/tg19 "The Gathering 2019"
+queue find_string https://www.gathering.org/tg19/page/informasjon "Informasjon"
+queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg19"
 
 # Archive
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
 queue check_url https://archive.gathering.org/ 200
-for year in 96 97 98 99 0{0..9} 10 15 16 17; do
+for year in 96 97 98 99 0{0..9} 10 15 16 17 18; do
 	queue check_url http://gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url https://gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
