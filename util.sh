@@ -110,7 +110,7 @@ check_mixed() {
 
 find_string() {
 	total=$(( ${total} + 1 ))
-	if curl -s "$1" | grep $2 > /dev/null
+	if curl -s "$1" | grep "$2" > /dev/null
 	then
 		print_green "OK     "
 		echo "| found string $2 in $1"

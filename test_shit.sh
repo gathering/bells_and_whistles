@@ -5,6 +5,9 @@ nqueue=0
 pjobs=10
 _start=$(date +%s)
 VERBOSE="0"
+YEAR=20
+PAST=$(/bin/bash -c "echo $(echo {15..$(( ${YEAR} - 1))})")
+
 
 cd $(dirname $0)
 . util.sh
@@ -82,34 +85,35 @@ queue check_url http://rt.gathering.org 302 https://rt.gathering.org/
 queue check_url https://rt.gathering.org/rt/ 200
 
 # Wannabe
-queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg19/
-queue check_url https://wannabe.gathering.org/tg19/Crew/Description 200
-queue check_url https://wannabe.gathering.org/tg19/Crew 302 https://wannabe.gathering.org/tg19/Login
-queue check_url https://wannabe.gathering.org/tg19/ 302 https://wannabe.gathering.org/tg19/Login
-queue check_url https://wannabe.gathering.org/tg19/Login 200
+queue check_url http://wannabe.gathering.org 301 https://wannabe.gathering.org/
+queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg${YEAR}/
+queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew/Description 200
+queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew 302 https://wannabe.gathering.org/tg${YEAR}/Login
+queue check_url https://wannabe.gathering.org/tg${YEAR}/ 302 https://wannabe.gathering.org/tg${YEAR}/Login
+queue check_url https://wannabe.gathering.org/tg${YEAR}/Login 200
 
 # g.o front
-queue check_url http://www.gathering.org/ 301 https://www.gathering.org/
-queue check_url https://www.gathering.org/ 301 https://www.gathering.org/tg19
-queue check_url http://gathering.org 301 https://www.gathering.org/
-queue check_url http://gathering.org/ 301 https://www.gathering.org/
-queue check_url http://gathering.org/tg19 301 https://www.gathering.org/tg19
-queue check_url https://gathering.org 301 https://www.gathering.org/tg19
-queue check_url https://gathering.org/ 301 https://www.gathering.org/tg19
-queue check_url https://gathering.org/tg19 301 https://www.gathering.org
-queue check_url https://www.gathering.org/tg19 200
+queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
+queue check_url https://www.gathering.org/ 302 https://www.gathering.org/tg${YEAR}
+queue check_url http://gathering.org 302 https://www.gathering.org/
+queue check_url http://gathering.org/ 302 https://www.gathering.org/
+queue check_url http://gathering.org/tg${YEAR} 302 https://www.gathering.org/tg${YEAR}
+queue check_url https://gathering.org 302 https://www.gathering.org/tg${YEAR}
+queue check_url https://gathering.org/ 302 https://www.gathering.org/tg${YEAR}
+queue check_url https://gathering.org/tg${YEAR} 302 https://www.gathering.org
+queue check_url https://www.gathering.org/tg${YEAR} 301 /tg${YEAR}/
+queue check_url https://www.gathering.org/tg${YEAR}/ 200
 queue check_url https://www.gathering.org/api/wp-login.php 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
-queue check_mixed https://www.gathering.org/tg19
-queue find_string https://www.gathering.org/tg19 "The Gathering 2019"
-queue find_string https://www.gathering.org/tg19/page/informasjon "Informasjon"
-queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg19"
+queue check_mixed https://www.gathering.org/tg${YEAR}
+queue find_string https://www.gathering.org/tg${YEAR}/ "The Gathering 20${YEAR}"
+queue find_string https://www.gathering.org/tg${YEAR}/page/informasjon "Informasjon"
+queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg${YEAR}"
 
 # Archive
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
 queue check_url https://archive.gathering.org/ 200
-for year in 96 97 98 99 0{0..9} 10 15 16 17 18; do
+for year in 96 97 98 99 0{0..9} 10 ${PAST}; do
 	queue check_url http://gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url https://gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
