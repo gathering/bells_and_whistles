@@ -25,7 +25,7 @@ An automated script for running this could be as simple as::
 
       # Run image and mount local config/playbook file
       # (you don't want this as part of your image since it contains secret slack token)
-      docker run -v $(pwd)/build/bells_and_whistles_to_slack.yml:/ansible/bells_and_whistles_to_slack.yml bells_and_whistles
+      docker run --rm -v $(pwd)/build/bells_and_whistles_to_slack.yml:/ansible/bells_and_whistles_to_slack.yml bells_and_whistles
 
 Automated tests are done periodically, and the results are posted to
 Core:Systems' Slack channel.
