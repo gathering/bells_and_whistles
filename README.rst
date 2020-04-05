@@ -9,11 +9,23 @@ Testing and running
 
 See Dockerfile for how to build it. It's nothing fancy.
 
-We run this on Kubernetes, e.g. GKE. The deployment information is found
+We run this as regular one-off docker container, but can also be run
+as Kubernetes, e.g. GKE. Kubernetes deployment examples is found
 under build/.
 
 You can test it locally by just running ``./test_shit.sh``, or optionally
 building the container and running that.
+
+An automated script for running this could be as simple as::
+
+      #!/bin/bash
+
+      # Create docker image (very quick build time)
+      docker build -t bells_and_whistles .
+
+      # Run image and mount local config/playbook file
+      # (you don't want this as part of your image since it contains secret slack token)
+      docker run --rm -v $(pwd)/build/bells_and_whistles_to_slack.yml:/ansible/bells_and_whistles_to_slack.yml bells_and_whistles
 
 Automated tests are done periodically, and the results are posted to
 Core:Systems' Slack channel.
