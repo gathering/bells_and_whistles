@@ -69,12 +69,15 @@ queue check_ssl countdown.gathering.org
 queue check_ssl teaser.gathering.org
 queue check_ssl rt.gathering.org
 queue check_ssl lists.gathering.org
+queue check_ssl tech.gathering.org
+queue check_ssl technical.gathering.org
 
 queue check_mixed https://www.gathering.org/
 queue check_mixed https://archive.gathering.org/
 queue check_mixed https://wannabe.gathering.org/
 queue check_mixed https://rt.gathering.org/
 queue check_mixed https://lists.gathering.org/
+queue check_mixed https://tech.gathering.org/
 
 # Lists / Mailman Web
 queue check_url http://lists.gathering.org 302 https://lists.gathering.org/
@@ -91,6 +94,12 @@ queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew/Description 200
 queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew 302 https://wannabe.gathering.org/tg${YEAR}/Login
 queue check_url https://wannabe.gathering.org/tg${YEAR}/ 302 https://wannabe.gathering.org/tg${YEAR}/Login
 queue check_url https://wannabe.gathering.org/tg${YEAR}/Login 200
+
+# tech.g.o
+queue check_url http://tech.gathering.org/ 301 https://tech.gathering.org/
+queue check_url https://tech.gathering.org/ 200
+queue find_string https://tech.gathering.org/ "TG - Technical Blog"
+queue check_url https://tech.gathering.org/wp-login.php 200
 
 # g.o front
 queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
