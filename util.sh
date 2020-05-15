@@ -13,9 +13,16 @@ print_red() {
 		echo -en "$*"
 	fi
 }
+print_yellow() {
+	if [ "x$COLOR" != "xNO"  ]; then
+		echo -en "\033[33m$*\033[0m";
+	else
+		echo -en "$*"
+	fi
+}
 
 eat_it() {
-	http -ph GET "$1" | awk -v arg1="$2" -v arg2="$3" -v url="$1" -v verbose=$VERBOSE '
+	http --timeout $TIMEOUT -ph GET "$1" | awk -v arg1="$2" -v arg2="$3" -v url="$1" -v verbose=$VERBOSE '
 /^HTTP\/1.1/ {
 	status=$2
 }
@@ -94,7 +101,7 @@ check_ssl() {
 }
 
 check_mixed() {
-	_out=$(! wget -p $1 --delete-after 2>&1| grep http://)
+	_out=$(! wget -T $TIMEOUT -p $1 --delete-after 2>&1| grep http://)
 	ret=$?
 	if [  "x$ret" = "x0" ]; then
 		print_green "OK     "
