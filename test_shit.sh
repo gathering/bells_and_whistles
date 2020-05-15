@@ -30,17 +30,15 @@ cd \$(dirname \$0)
 	flaky=0
 	ret=0
 	try=0
+	output=""
 
-	$*
+	output=\$($*)
 	ret=\$?
 
 	# Retry as needed
 	while [ \$ret -ne 0 ] && [ \$try -lt ${MAX_RETRIES} ]; do
-		if [ "x$VERBOSE" = "xtrue" ]; then
-			print_yellow "Delaying and retrying: $*\n"
-		fi
 		sleep ${RETRY_DELAY};
-		$*
+		output=\$($*)
 		ret=\$?
 
 		try=\$(( \$try + 1 ))
@@ -53,6 +51,7 @@ cd \$(dirname \$0)
 
 	echo \$ret > ret
 	echo \$flaky > flaky
+	echo "\$output (\$try retries)"
 } | sponge
 echo \$(( \$(date +%s) - \${_start} )) > runtime
 _EOF_
@@ -206,5 +205,5 @@ if [ "x$total_ret" != "x0" ]; then
 else
 	print_green "All ok!\n"
 fi
-echo "$total_ret of $total tests failed. Run-time: $_duration seconds. Flaky, but passing tests: $total_flaky"
+echo "$total_ret of $total tests failed. Run-time: $_duration seconds. $total_flaky flaky, but passing tests."
 exit $total_ret
