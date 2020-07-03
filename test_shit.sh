@@ -117,7 +117,7 @@ queue check_url https://rt.gathering.org/rt/ 200
 # Wannabe
 queue check_url http://wannabe.gathering.org 301 https://wannabe.gathering.org/
 queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg${YEAR}/
-queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew/Description 200
+# queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew/Description 200
 queue check_url https://wannabe.gathering.org/tg${YEAR}/Crew 302 https://wannabe.gathering.org/tg${YEAR}/Login
 queue check_url https://wannabe.gathering.org/tg${YEAR}/ 302 https://wannabe.gathering.org/tg${YEAR}/Login
 queue check_url https://wannabe.gathering.org/tg${YEAR}/Login 200
