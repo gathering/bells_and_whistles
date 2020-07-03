@@ -5,6 +5,9 @@ nqueue=0
 pjobs=10
 _start=$(date +%s)
 VERBOSE="0"
+RETRY_DELAY=5
+MAX_RETRIES=2
+TIMEOUT=2
 YEAR=20
 PAST=$(/bin/bash -c "echo $(echo {10..$(( ${YEAR} - 1))})")
 
@@ -20,11 +23,35 @@ queue() {
 #!/bin/bash
 _start=\$(date +%s)
 VERBOSE=${VERBOSE}
+TIMEOUT=${TIMEOUT}
 cd \$(dirname \$0)
 . ../../util.sh
 {
-	$*
-echo \$? > ret
+	flaky=0
+	ret=0
+	try=0
+	output=""
+
+	output=\$($*)
+	ret=\$?
+
+	# Retry as needed
+	while [ \$ret -ne 0 ] && [ \$try -lt ${MAX_RETRIES} ]; do
+		sleep ${RETRY_DELAY};
+		output=\$($*)
+		ret=\$?
+
+		try=\$(( \$try + 1 ))
+	done
+
+	# Mark as flaky if passed after retries
+	if [ \$ret -eq 0 ] && [ \$try -ne 0 ]; then
+		flaky=1
+	fi
+
+	echo \$ret > ret
+	echo \$flaky > flaky
+	echo "\$output (\$try retries)"
 } | sponge
 echo \$(( \$(date +%s) - \${_start} )) > runtime
 _EOF_
@@ -161,6 +188,10 @@ item=0
 while [ $item -lt $nqueue ]; do
 	ret=$(cat output/${item}/ret)
 	total_ret=$(( ${total_ret} + ${ret} ))
+
+	flaky=$(cat output/${item}/flaky)
+	total_flaky=$(( ${total_flaky} + ${flaky} ))
+
 	total=$(( ${total} + 1 ))
 	item=$(( $item + 1 ))
 done
@@ -174,5 +205,5 @@ if [ "x$total_ret" != "x0" ]; then
 else
 	print_green "All ok!\n"
 fi
-echo "$total_ret of $total tests failed. Run-time: $_duration seconds."
+echo "$total_ret of $total tests failed. Run-time: $_duration seconds. $total_flaky flaky, but passing tests."
 exit $total_ret
