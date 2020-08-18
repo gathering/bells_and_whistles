@@ -115,7 +115,7 @@ queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering
 queue check_url https://atlassian.gathering.org/jira 302 https://atlassian.gathering.org/jira/
 queue check_url jira.gathering.org 301 https://atlassian.gathering.org/jira
 queue check_url confluence.gathering.org 301 https://atlassian.gathering.org/confluence
-queue check_url https://atlassian.gathering.org/confluence 301 https://atlassian.gathering.org/confluence/
+queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian.gathering.org/confluence/
 
 # Lists / Mailman Web
 queue check_url http://lists.gathering.org 302 https://lists.gathering.org/
@@ -147,8 +147,8 @@ queue check_url http://gathering.org/ 302 https://gathering.org/
 queue check_url http://gathering.org/tg${YEAR} 302 https://gathering.org/tg${YEAR}
 queue check_url https://gathering.org 302 https://www.gathering.org/tg${YEAR}/
 queue check_url https://gathering.org/ 302 https://www.gathering.org/tg${YEAR}/
-queue check_url https://gathering.org/tg${YEAR} 302 /tg${YEAR}/
-queue check_url https://www.gathering.org/tg${YEAR} 302 /tg${YEAR}/
+queue check_url https://gathering.org/tg${YEAR} 301 /tg${YEAR}/
+queue check_url https://www.gathering.org/tg${YEAR} 301 /tg${YEAR}/
 queue check_url https://www.gathering.org/tg${YEAR}/ 200
 queue check_url https://www.gathering.org/api/wp-login.php 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
