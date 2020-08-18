@@ -157,7 +157,7 @@ for year in 96 97 98 99 0{0..9} ${PAST}; do
 	queue check_url http://gathering.org/tg${year}/ 302 https://gathering.org/tg${year}/
 	queue check_url https://gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
 	queue check_url https://www.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
 	queue check_url http://www.gathering.org/tg${year}/ 302 https://www.gathering.org/tg${year}/
 	queue check_url http://www.gathering.org/tg${year} 302 https://www.gathering.org/tg${year}
 
@@ -168,7 +168,7 @@ for year in 96 97 98 99 0{0..9} ${PAST}; do
 		queue check_mixed https://archive.gathering.org/tg${year}/en/
 	else
 		queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-		queue check_url https://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}/
+		queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
 		queue check_url https://archive.gathering.org/tg${year}/ 200
 		queue check_mixed https://archive.gathering.org/tg${year}/
 	fi
