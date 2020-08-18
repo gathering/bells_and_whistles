@@ -129,15 +129,15 @@ queue find_string https://tech.gathering.org/ "TG - Technical Blog"
 queue check_url https://tech.gathering.org/wp-login.php 200
 
 # g.o front
-queue check_url http://www.gathering.org/ 303 https://www.gathering.org/
+queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
 queue check_url https://www.gathering.org/ 302 https://www.gathering.org/tg${YEAR}/
-queue check_url http://gathering.org 303 https://gathering.org/
-queue check_url http://gathering.org/ 303 https://gathering.org/
-queue check_url http://gathering.org/tg${YEAR} 303 https://gathering.org/tg${YEAR}
+queue check_url http://gathering.org 302 https://gathering.org/
+queue check_url http://gathering.org/ 302 https://gathering.org/
+queue check_url http://gathering.org/tg${YEAR} 302 https://gathering.org/tg${YEAR}
 queue check_url https://gathering.org 302 https://www.gathering.org/tg${YEAR}/
 queue check_url https://gathering.org/ 302 https://www.gathering.org/tg${YEAR}/
-queue check_url https://gathering.org/tg${YEAR} 301 /tg${YEAR}/
-queue check_url https://www.gathering.org/tg${YEAR} 301 /tg${YEAR}/
+queue check_url https://gathering.org/tg${YEAR} 302 /tg${YEAR}/
+queue check_url https://www.gathering.org/tg${YEAR} 302 /tg${YEAR}/
 queue check_url https://www.gathering.org/tg${YEAR}/ 200
 queue check_url https://www.gathering.org/api/wp-login.php 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
@@ -152,14 +152,14 @@ queue check_url https://archive.gathering.org/ 200
 
 # Archive - years
 for year in 96 97 98 99 0{0..9} ${PAST}; do
-	queue check_url http://gathering.org/tg${year} 303 https://gathering.org/tg${year}
-	queue check_url https://gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
-	queue check_url http://gathering.org/tg${year}/ 303 https://gathering.org/tg${year}/
-	queue check_url https://gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year}/ 301 https://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
-	queue check_url http://www.gathering.org/tg${year}/ 303 https://www.gathering.org/tg${year}/
-	queue check_url http://www.gathering.org/tg${year} 303 https://www.gathering.org/tg${year}
+	queue check_url http://gathering.org/tg${year} 302 https://gathering.org/tg${year}
+	queue check_url https://gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url http://gathering.org/tg${year}/ 302 https://gathering.org/tg${year}/
+	queue check_url https://gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
+	queue check_url https://www.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
+	queue check_url http://www.gathering.org/tg${year}/ 302 https://www.gathering.org/tg${year}/
+	queue check_url http://www.gathering.org/tg${year} 302 https://www.gathering.org/tg${year}
 
 	if ((10#$year >= 11 && 10#$year <= 14)); then
 		queue check_url https://archive.gathering.org/tg${year}/no/ 200
@@ -168,7 +168,7 @@ for year in 96 97 98 99 0{0..9} ${PAST}; do
 		queue check_mixed https://archive.gathering.org/tg${year}/en/
 	else
 		queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-		queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+		queue check_url https://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}/
 		queue check_url https://archive.gathering.org/tg${year}/ 200
 		queue check_mixed https://archive.gathering.org/tg${year}/
 	fi
