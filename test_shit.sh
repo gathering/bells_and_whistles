@@ -98,6 +98,9 @@ queue check_ssl rt.gathering.org
 queue check_ssl lists.gathering.org
 queue check_ssl tech.gathering.org
 queue check_ssl technical.gathering.org
+queue check_ssl atlassian.gathering.org
+queue check_ssl jira.gathering.org
+queue check_ssl confluence.gathering.org
 
 queue check_mixed https://www.gathering.org/
 queue check_mixed https://archive.gathering.org/
@@ -105,6 +108,14 @@ queue check_mixed https://wannabe.gathering.org/
 queue check_mixed https://rt.gathering.org/
 queue check_mixed https://lists.gathering.org/
 queue check_mixed https://tech.gathering.org/
+
+# Atlassian
+queue check_url http://atlassian.gathering.org 301 https://atlassian.gathering.org/
+queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering.org/jira
+queue check_url https://atlassian.gathering.org/jira 302 https://atlassian.gathering.org/jira/
+queue check_url jira.gathering.org 301 https://atlassian.gathering.org/jira
+queue check_url confluence.gathering.org 301 https://atlassian.gathering.org/confluence
+queue check_url https://atlassian.gathering.org/confluence 301 https://atlassian.gathering.org/confluence/
 
 # Lists / Mailman Web
 queue check_url http://lists.gathering.org 302 https://lists.gathering.org/
@@ -157,7 +168,7 @@ for year in 96 97 98 99 0{0..9} ${PAST}; do
 	queue check_url http://gathering.org/tg${year}/ 302 https://gathering.org/tg${year}/
 	queue check_url https://gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
 	queue check_url https://www.gathering.org/tg${year}/ 302 https://archive.gathering.org/tg${year}/
-	queue check_url https://www.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}
+	queue check_url https://www.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
 	queue check_url http://www.gathering.org/tg${year}/ 302 https://www.gathering.org/tg${year}/
 	queue check_url http://www.gathering.org/tg${year} 302 https://www.gathering.org/tg${year}
 
@@ -168,7 +179,7 @@ for year in 96 97 98 99 0{0..9} ${PAST}; do
 		queue check_mixed https://archive.gathering.org/tg${year}/en/
 	else
 		queue check_url http://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}
-		queue check_url https://archive.gathering.org/tg${year} 301 https://archive.gathering.org/tg${year}/
+		queue check_url https://archive.gathering.org/tg${year} 302 https://archive.gathering.org/tg${year}/
 		queue check_url https://archive.gathering.org/tg${year}/ 200
 		queue check_mixed https://archive.gathering.org/tg${year}/
 	fi
