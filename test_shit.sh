@@ -9,7 +9,7 @@ RETRY_DELAY=5
 MAX_RETRIES=2
 TIMEOUT=2
 CREW_YEAR="21online"
-PUB_YEAR=20
+PUB_YEAR=21
 PAST=$(/bin/bash -c "echo $(echo {10..$(( ${PUB_YEAR} - 1))})")
 
 
