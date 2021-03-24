@@ -93,7 +93,6 @@ queue check_ssl www.gathering.org
 queue check_ssl gathering.org
 queue check_ssl wannabe.gathering.org
 queue check_ssl archive.gathering.org
-queue check_ssl countdown.gathering.org
 queue check_ssl rt.gathering.org
 queue check_ssl lists.gathering.org
 queue check_ssl tech.gathering.org
