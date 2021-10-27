@@ -8,7 +8,7 @@ VERBOSE="0"
 RETRY_DELAY=5
 MAX_RETRIES=2
 TIMEOUT=2
-CREW_YEAR="21online"
+CREW_YEAR="22"
 PUB_YEAR=21
 PAST=$(/bin/bash -c "echo $(echo {10..$(( ${PUB_YEAR} - 1))})")
 
@@ -125,12 +125,12 @@ queue check_url http://rt.gathering.org 302 https://rt.gathering.org/
 queue check_url https://rt.gathering.org/rt/ 200
 
 # Wannabe
-queue check_url http://wannabe.gathering.org 301 https://wannabe.gathering.org/
-queue check_url https://wannabe.gathering.org 302 https://wannabe.gathering.org/tg${CREW_YEAR}/
-# queue check_url https://wannabe.gathering.org/tg${CREW_YEAR}/Crew/Description 200
-queue check_url https://wannabe.gathering.org/tg${CREW_YEAR}/Crew 302 https://wannabe.gathering.org/tg${CREW_YEAR}/Login
-queue check_url https://wannabe.gathering.org/tg${CREW_YEAR}/ 302 https://wannabe.gathering.org/tg${CREW_YEAR}/Login
-queue check_url https://wannabe.gathering.org/tg${CREW_YEAR}/Login 200
+queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
+queue check_url https://wannabe.gathering.org/tg20 302 https://wannabe4.gathering.org/tg20
+queue check_url https://wannabe.gathering.org/crew 200
+queue check_url https://wannabe.gathering.org/liveness 200
+queue check_url https://wannabe.gathering.org/api/auth/liveness 200
+queue check_url https://wannabe.gathering.org/api/crew/liveness 200
 
 # tech.g.o
 queue check_url http://tech.gathering.org/ 301 https://tech.gathering.org/
