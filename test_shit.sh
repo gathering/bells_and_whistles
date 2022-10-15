@@ -9,6 +9,7 @@ RETRY_DELAY=5
 MAX_RETRIES=2
 TIMEOUT=2
 PUB_YEAR=22
+ACTIVE_CREW_YEAR=22
 PAST=$(/bin/bash -c "echo $(echo {10..$(( ${PUB_YEAR} - 1))})")
 
 
@@ -126,7 +127,7 @@ queue check_url https://rt.gathering.org/rt/ 200
 # Wannabe
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
 queue check_url https://wannabe.gathering.org/tg20 302 https://wannabe4.gathering.org/tg20
-queue check_url https://wannabe.gathering.org/crew 200
+queue check_url https://wannabe.gathering.org/tg${ACTIVE_CREW_YEAR}/crew 200
 queue check_url https://wannabe.gathering.org/liveness 200
 queue check_url https://wannabe.gathering.org/api/auth/liveness 200
 queue check_url https://wannabe.gathering.org/api/crew/liveness 200
