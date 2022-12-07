@@ -110,7 +110,7 @@ queue check_mixed https://tech.gathering.org/
 
 # Atlassian
 queue check_url http://atlassian.gathering.org 302 https://atlassian.gathering.org/
-queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering.org/jira
+queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering.org/confluence
 queue check_url https://atlassian.gathering.org/jira 302 https://atlassian.gathering.org/jira/
 queue check_url jira.gathering.org 302 https://jira.gathering.org/
 queue check_url confluence.gathering.org 302 https://confluence.gathering.org/
