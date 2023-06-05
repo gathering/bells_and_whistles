@@ -93,8 +93,6 @@ queue check_ssl www.gathering.org
 queue check_ssl gathering.org
 queue check_ssl wannabe.gathering.org
 queue check_ssl archive.gathering.org
-queue check_ssl rt.gathering.org
-queue check_ssl lists.gathering.org
 queue check_ssl tech.gathering.org
 queue check_ssl technical.gathering.org
 queue check_ssl atlassian.gathering.org
@@ -104,8 +102,6 @@ queue check_ssl confluence.gathering.org
 queue check_mixed https://www.gathering.org/
 queue check_mixed https://archive.gathering.org/
 queue check_mixed https://wannabe.gathering.org/
-queue check_mixed https://rt.gathering.org/
-queue check_mixed https://lists.gathering.org/
 queue check_mixed https://tech.gathering.org/
 
 # Atlassian
