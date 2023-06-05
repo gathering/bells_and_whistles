@@ -9,7 +9,7 @@ RETRY_DELAY=5
 MAX_RETRIES=2
 TIMEOUT=2
 PUB_YEAR=23
-ACTIVE_CREW_YEAR=22
+ACTIVE_CREW_YEAR=23
 PAST=$(/bin/bash -c "echo $(echo {10..$(( ${PUB_YEAR} - 1))})")
 
 
@@ -111,14 +111,6 @@ queue check_url https://atlassian.gathering.org/jira 302 https://atlassian.gathe
 queue check_url jira.gathering.org 302 https://jira.gathering.org/
 queue check_url confluence.gathering.org 302 https://confluence.gathering.org/
 queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian.gathering.org/confluence/
-
-# Lists / Mailman Web
-queue check_url http://lists.gathering.org 302 https://lists.gathering.org/
-queue check_url https://lists.gathering.org/ 200
-
-# RT
-queue check_url http://rt.gathering.org 302 https://rt.gathering.org/
-queue check_url https://rt.gathering.org/rt/ 200
 
 # Wannabe
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
