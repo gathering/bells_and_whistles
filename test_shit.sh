@@ -128,21 +128,16 @@ queue find_string https://tech.gathering.org/ "TG - Technical Blog"
 
 # g.o front
 queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
-queue check_url https://www.gathering.org/ 302 https://www.gathering.org/tg${PUB_YEAR}/
 queue check_url http://gathering.org 302 https://gathering.org/
 queue check_url http://gathering.org/ 302 https://gathering.org/
-queue check_url http://gathering.org/tg${PUB_YEAR} 302 https://gathering.org/tg${PUB_YEAR}
-queue check_url https://gathering.org 302 https://www.gathering.org/tg${PUB_YEAR}/
-queue check_url https://gathering.org/ 302 https://www.gathering.org/tg${PUB_YEAR}/
-queue check_url https://gathering.org/tg${PUB_YEAR} 301 /tg${PUB_YEAR}/
-queue check_url https://www.gathering.org/tg${PUB_YEAR} 301 /tg${PUB_YEAR}/
-queue check_url https://www.gathering.org/tg${PUB_YEAR}/ 200
-# queue check_url https://www.gathering.org/api/wp-login.php 200  ## disablet da denne går til keycloak som er random url hver gang.
+queue check_url http://gathering.org/random-path 302 https://gathering.org/random-path
+queue check_url https://gathering.org 200
+queue check_url https://gathering.org/ 200
+queue check_url https://www.gathering.org/ 200
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
-queue check_mixed https://www.gathering.org/tg${PUB_YEAR}
-queue find_string https://www.gathering.org/tg${PUB_YEAR}/ "The Gathering 20${PUB_YEAR}"
-queue find_string https://www.gathering.org/tg${PUB_YEAR}/page/informasjon "Informasjon"
-queue find_string https://www.gathering.org/api/?rest_route=/gathering/v1/menu "/tg${PUB_YEAR}"
+queue check_mixed https://www.gathering.org/
+queue find_string https://www.gathering.org/ "The Gathering"
+queue find_string https://www.gathering.org/page/informasjon "Informasjon"
 
 # Archive - general
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
