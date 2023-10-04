@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:stable
 RUN apt-get update
 RUN apt-get install -y make openssl httpie gawk wget moreutils ansible curl
 ADD . /
