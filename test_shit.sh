@@ -128,10 +128,10 @@ queue find_string https://tech.gathering.org/ "TG - Technical Blog"
 
 # g.o front
 queue check_url http://www.gathering.org/ 302 https://www.gathering.org/
-queue check_url http://gathering.org 302 https://gathering.org
+queue check_url http://gathering.org 302 https://gathering.org/
 queue check_url http://gathering.org/ 302 https://gathering.org/
 queue check_url http://gathering.org/random-path 302 https://gathering.org/random-path
-queue check_url https://gathering.org 302 https://www.gathering.org
+queue check_url https://gathering.org 302 https://www.gathering.org/
 queue check_url https://gathering.org/ 302 https://www.gathering.org/
 ##queue check_url https://www.gathering.org/ 200 ##Disabled - 302
 ##queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
@@ -140,14 +140,13 @@ queue check_url https://www.gathering.org/ 302 https://www.tg.no
 queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 302 https://www.tg.no
 
 # tg.no
-queue check_url https://tg.no/ 302 https://www.tg.no
-queue check_url http://tg.no/ 302 https://www.tg.no
-queue check_url https://tg.no/ 302 https://www.tg.no
-queue check_url http://tg.no/ 302 https://www.tg.no
+queue check_url http://tg.no/ 302 https://tg.no/
+queue check_url https://tg.no/ 302 https://www.tg.no/
+queue check_url https://tg.no/ 302 https://www.tg.no/
 queue check_url https://www.tg.no/ 200
 queue check_mixed https://www.tg.no/
 queue find_string https://www.tg.no/ "The Gathering"
-queue find_string https://www.tg.no/page/informasjon "Informasjon"
+queue find_string https://www.tg.no/page/informasjon "Les alt i Tech-bloggen"
 
 
 # Archive - general
