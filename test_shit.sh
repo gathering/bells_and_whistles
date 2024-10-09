@@ -146,7 +146,7 @@ queue check_url https://tg.no/ 302 https://www.tg.no/
 queue check_url https://www.tg.no/ 200
 queue check_mixed https://www.tg.no/
 queue find_string https://www.tg.no/ "The Gathering"
-queue find_string https://www.tg.no/page/informasjon "Les alt i Tech-bloggen"
+queue find_string https://www.tg.no/news/ "We have hosted The Gathering since 1992"
 
 
 # Archive - general
