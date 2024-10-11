@@ -112,13 +112,21 @@ queue check_url jira.gathering.org 302 https://jira.gathering.org/
 queue check_url confluence.gathering.org 302 https://confluence.gathering.org/
 queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian.gathering.org/confluence/
 
-# Wannabe
+# Wannabe (gathering.org)
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
 queue check_url https://wannabe.gathering.org/tg20 302 https://wannabe4.gathering.org/tg20
 queue check_url https://wannabe.gathering.org/tg${ACTIVE_CREW_YEAR}/crew 200
+queue check_url https://wannabe.gathering.org/liveness 302 https://wannabe.gathering.org/liveness
+queue check_url https://wannabe.gathering.org/api/auth/liveness 302 https://wannabe.tg.no/api/auth/liveness
+queue check_url https://wannabe.gathering.org/api/crew/liveness 302 https://wannabe.tg.no/api/crew/liveness
+# Wannabe (tg.no)
 queue check_url https://wannabe.gathering.org/liveness 200
-queue check_url https://wannabe.gathering.org/api/auth/liveness 200
-queue check_url https://wannabe.gathering.org/api/crew/liveness 200
+queue check_url https://wannabe.tg.no/api/auth/liveness 200
+queue check_url https://wannabe.tg.no/api/crew/liveness 200
+queue check_url https://wannabe.tg.no/liveness 200
+queue check_url https://wannabe.tg.no/api/auth/liveness 200
+queue check_url https://wannabe.tg.no/api/crew/liveness 200
+
 
 # tech.g.o
 queue check_url http://tech.gathering.org/ 302 https://tech.gathering.org/
