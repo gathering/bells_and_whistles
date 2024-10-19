@@ -117,7 +117,6 @@ queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian
 
 # Wannabe (gathering.org)
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
-queue check_url https://wannabe.gathering.org/tg20 302 https://wannabe4.gathering.org/tg20
 queue check_url https://wannabe.gathering.org/tg${ACTIVE_CREW_YEAR}/crew 302 https://wannabe.tg.no/tg${ACTIVE_CREW_YEAR}/crew
 queue check_url https://wannabe.gathering.org/liveness 302 https://wannabe.tg.no/liveness
 queue check_url https://wannabe.gathering.org/api/auth/liveness 200
