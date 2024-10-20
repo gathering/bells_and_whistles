@@ -143,11 +143,11 @@ queue check_url http://gathering.org/ 302 https://gathering.org/
 queue check_url http://gathering.org/random-path 302 https://gathering.org/random-path
 queue check_url https://gathering.org 302 https://www.gathering.org/
 queue check_url https://gathering.org/ 302 https://www.gathering.org/
-##queue check_url https://www.gathering.org/ 200 ##Disabled - 302
-##queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
-queue check_url https://www.gathering.org 302 https://www.tg.no
-queue check_url https://www.gathering.org/ 302 https://www.tg.no
-queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 302 https://www.tg.no
+# queue check_url https://www.gathering.org/ 200 ##Disabled - 302
+# queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 200
+queue check_url https://www.gathering.org 301 https://www.tg.no
+queue check_url https://www.gathering.org/ 301 https://www.tg.no
+# queue check_url https://www.gathering.org/api/?rest_route=/gathering/v1/menu 302 https://www.tg.no
 
 # tg.no
 queue check_url http://tg.no/ 302 https://tg.no/
