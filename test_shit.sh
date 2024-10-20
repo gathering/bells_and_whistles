@@ -91,6 +91,8 @@ done
 
 queue check_ssl www.gathering.org
 queue check_ssl gathering.org
+queue check_ssl tg.no
+queue check_ssl www.tg.no
 queue check_ssl wannabe.gathering.org
 queue check_ssl wannabe.tg.no
 queue check_ssl archive.gathering.org
@@ -118,9 +120,7 @@ queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian
 # Wannabe (gathering.org)
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
 queue check_url https://wannabe.gathering.org/tg${ACTIVE_CREW_YEAR}/crew 302 https://wannabe.tg.no/tg${ACTIVE_CREW_YEAR}/crew
-queue check_url https://wannabe.gathering.org/liveness 302 https://wannabe.tg.no/liveness
-queue check_url https://wannabe.gathering.org/api/auth/liveness 200
-queue check_url https://wannabe.gathering.org/api/crew/liveness 200
+
 # Wannabe (tg.no)
 queue check_url https://wannabe.tg.no/tg${ACTIVE_CREW_YEAR}/crew 200
 queue check_url https://wannabe.tg.no/api/auth/liveness 200
@@ -128,7 +128,6 @@ queue check_url https://wannabe.tg.no/api/crew/liveness 200
 queue check_url https://wannabe.tg.no/liveness 200
 queue check_url https://wannabe.tg.no/api/auth/liveness 200
 queue check_url https://wannabe.tg.no/api/crew/liveness 200
-
 
 # tech.g.o
 queue check_url http://tech.gathering.org/ 302 https://tech.gathering.org/
@@ -157,7 +156,6 @@ queue check_url https://www.tg.no/ 200
 queue check_mixed https://www.tg.no/
 queue find_string https://www.tg.no/ "The Gathering"
 queue find_string https://www.tg.no/news/ "We have hosted The Gathering since 1992"
-
 
 # Archive - general
 queue check_url http://archive.gathering.org/ 302 https://archive.gathering.org/
