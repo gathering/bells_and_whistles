@@ -99,7 +99,6 @@ queue check_ssl archive.gathering.org
 queue check_ssl tech.gathering.org
 queue check_ssl technical.gathering.org
 queue check_ssl atlassian.gathering.org
-queue check_ssl jira.gathering.org
 queue check_ssl confluence.gathering.org
 
 queue check_mixed https://www.gathering.org/
@@ -112,8 +111,6 @@ queue check_mixed https://tech.gathering.org/
 # Atlassian
 queue check_url http://atlassian.gathering.org 302 https://atlassian.gathering.org/
 queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering.org/confluence
-queue check_url https://atlassian.gathering.org/jira 302 https://atlassian.gathering.org/jira/
-queue check_url jira.gathering.org 302 https://jira.gathering.org/
 queue check_url confluence.gathering.org 302 https://confluence.gathering.org/
 queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian.gathering.org/confluence/
 
