@@ -7,10 +7,9 @@
     delegate_to: localhost
     ignore_errors: true
   - name: Post to slack
-    local_action:
-      module: slack
+    slack:
       token: INSERT-SLACK-TOKEN-HERE
       username: "Kristians while-true-løkke"
       parse: "full"
       msg: "```{{ LOL.stdout }}\n```"
-      
+    delegate_to: localhost
