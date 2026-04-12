@@ -112,7 +112,7 @@ queue check_mixed https://tech.gathering.org/
 queue check_url http://atlassian.gathering.org 302 https://atlassian.gathering.org/
 queue check_url https://atlassian.gathering.org/ 302 https://atlassian.gathering.org/confluence
 queue check_url confluence.gathering.org 302 https://confluence.gathering.org/
-queue check_url https://atlassian.gathering.org/confluence 302 https://atlassian.gathering.org/confluence/
+queue check_url https://atlassian.gathering.org/confluence 302 /confluence/
 
 # Wannabe (gathering.org)
 queue check_url http://wannabe.gathering.org 302 https://wannabe.gathering.org/
