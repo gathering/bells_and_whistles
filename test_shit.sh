@@ -106,7 +106,7 @@ queue check_mixed https://www.tg.no/
 queue check_mixed https://archive.gathering.org/
 queue check_mixed https://wannabe.gathering.org/
 queue check_mixed https://wannabe.tg.no/
-queue check_mixed https://tech.gathering.org/
+queue check_mixed https://tech.tg.no/
 
 # Atlassian
 queue check_url http://atlassian.gathering.org 302 https://atlassian.gathering.org/
