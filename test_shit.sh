@@ -126,10 +126,12 @@ queue check_url https://wannabe.tg.no/liveness 200
 queue check_url https://wannabe.tg.no/api/auth/liveness 200
 queue check_url https://wannabe.tg.no/api/crew/liveness 200
 
-# tech.g.o
-queue check_url http://tech.gathering.org/ 302 https://tech.gathering.org/
-queue check_url https://tech.gathering.org/ 200
-queue find_string https://tech.gathering.org/ "TG - Technical Blog"
+# tech.g.o // tech.tg.no
+queue check_url http://tech.gathering.org/ 301 https://tech.gathering.org/
+queue check_url http://tech.tg.no/ 301 https://tech.tg.no/
+queue check_url https://tech.gathering.org/ 301 https://tech.tg.no/
+queue check_url https://tech.tg.no/ 200
+queue find_string https://tech.tg.no/ "TG - Technical Blog"
 # queue check_url https://tech.gathering.org/wp-login.php 200  ## disablet da denne går til keycloak som er random url hver gang.
 
 # g.o front
